@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Solution 2025 - Upskilling Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #7c3aed;
+            --bg-dark: #0a0a0f;
+            --bg-card: #141420;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --border: rgba(0, 212, 255, 0.2);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 100%);
+            z-index: -2;
+        }
+
+        /* Subtle Grid */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab {
+            background: var(--bg-card);
+            padding: 14px 28px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        .tab:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        /* Content */
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 16px;
+            min-height: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-dark);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.3em;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin: 8px 0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .card p strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            justify-content: flex-end;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+            position: relative;
+            z-index: 11;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-delete:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 12px;
+            border: 1px solid;
+        }
+
+        .badge-iniciante {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-intermediario {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-avancado {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-ativa {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-concluida {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Competencia Tags */
+        .competencia-tag {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+            margin: 6px 6px 6px 0;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+        /* Error */
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Forms */
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .form-section {
+            background: var(--bg-dark);
+            padding: 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .form-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .modal-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary);
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .tab {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Global Solution 2025</h1>
+            <p class="subtitle">Upskilling Platform • O Futuro do Trabalho 2030+</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('usuarios')">👥 Usuários</button>
+            <button class="tab" onclick="showTab('trilhas')">📚 Trilhas</button>
+            <button class="tab" onclick="showTab('matriculas')">🎓 Matrículas</button>
+            <button class="tab" onclick="showTab('automation')">🤖 Análise de Risco</button>
+            <button class="tab" onclick="showTab('navigator')">🧭 Navegador de Carreiras</button>
+            <button class="tab" onclick="showTab('criar')">➕ Criar</button>
+        </div>
+
+        <div class="content">
+            <!-- Tab Usuários -->
+            <div id="usuarios" class="tab-content active">
+                <h2>Usuários Cadastrados</h2>
+                <div id="usuarios-list" class="loading">Carregando usuários...</div>
+            </div>
+
+            <!-- Tab Trilhas -->
+            <div id="trilhas" class="tab-content">
+                <h2>Trilhas de Aprendizagem</h2>
+                <div class="filters">
+                    <button class="btn btn-secondary" onclick="filtrarTrilhas('INICIANTE')">Iniciante</button>
+                    <button class="btn btn-secondary" onclick="filtrarTrilhas('INTERMEDIARIO')">Intermediário</button>
+                    <button class="btn btn-secondary" onclick="filtrarTrilhas('AVANCADO')">Avançado</button>
+                    <button class="btn btn-secondary" onclick="carregarTrilhas()">Todas</button>
+                </div>
+                <div id="trilhas-list" class="loading">Carregando trilhas...</div>
+            </div>
+
+            <!-- Tab Matrículas -->
+            <div id="matriculas" class="tab-content">
+                <h2>Matrículas</h2>
+                <div id="matriculas-list" class="loading">Carregando matrículas...</div>
+            </div>
+
+            <!-- Tab Análise de Risco -->
+            <div id="automation" class="tab-content">
+                <h2>🤖 Automation Risk Analyzer</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.05em;">
+                    Analise o risco de automação da sua profissão e receba recomendações de requalificação
+                </p>
+                
+                <div class="form-section" style="max-width: 600px; margin: 0 auto;">
+                    <div class="form-group">
+                        <label>Selecione ou digite sua profissão:</label>
+                        <input type="text" id="profissao-input" list="profissoes-list" 
+                               placeholder="Ex: Operador de Telemarketing, Caixa de Supermercado...">
+                        <datalist id="profissoes-list"></datalist>
+                    </div>
+                    <button class="btn" onclick="analisarRisco()" style="width: 100%;">🔍 Analisar Risco de Automação</button>
+                </div>
+
+                <div id="resultado-analise" style="margin-top: 40px;"></div>
+            </div>
+
+            <!-- Tab Navegador de Carreiras -->
+            <div id="navigator" class="tab-content">
+                <h2>🧭 Future Jobs Navigator</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 1.05em;">
+                    Descubra caminhos para profissões emergentes de 2030+ baseado na sua profissão atual
+                </p>
+                
+                <div class="form-section" style="max-width: 600px; margin: 0 auto;">
+                    <div class="form-group">
+                        <label>Selecione ou digite sua profissão atual:</label>
+                        <input type="text" id="profissao-atual-input" list="profissoes-atuais-list" 
+                               placeholder="Ex: Desenvolvedor de Software, Analista de Dados...">
+                        <datalist id="profissoes-atuais-list"></datalist>
+                    </div>
+                    <button class="btn" onclick="navegarCarreira()" style="width: 100%;">🧭 Navegar Carreiras do Futuro</button>
+                </div>
+
+                <div id="resultado-navegacao" style="margin-top: 40px;"></div>
+            </div>
+
+            <!-- Tab Criar -->
+            <div id="criar" class="tab-content">
+                <h2>Criar Novo Registro</h2>
+                <div class="form-container">
+                    <div class="form-section">
+                        <h3>Novo Usuário</h3>
+                        <form id="form-usuario" onsubmit="criarUsuario(event)">
+                            <div class="form-group">
+                                <label>Nome *</label>
+                                <input type="text" name="nome" required placeholder="Digite o nome completo">
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" name="email" required placeholder="exemplo@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Área de Atuação</label>
+                                <input type="text" name="areaAtuacao" placeholder="Ex: Tecnologia da Informação">
+                            </div>
+                            <div class="form-group">
+                                <label>Nível de Carreira</label>
+                                <input type="text" name="nivelCarreira" placeholder="Ex: Júnior, Pleno, Sênior">
+                            </div>
+                            <button type="submit" class="btn">Criar Usuário</button>
+                        </form>
+                    </div>
+                    <div class="form-section">
+                        <h3>Nova Matrícula</h3>
+                        <form id="form-matricula" onsubmit="criarMatricula(event)">
+                            <div class="form-group">
+                                <label>ID do Usuário *</label>
+                                <input type="number" name="usuarioId" required placeholder="Digite o ID do usuário">
+                            </div>
+                            <div class="form-group">
+                                <label>ID da Trilha *</label>
+                                <input type="number" name="trilhaId" required placeholder="Digite o ID da trilha">
+                            </div>
+                            <button type="submit" class="btn">Criar Matrícula</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'usuarios') carregarUsuarios();
+            if (tabName === 'trilhas') carregarTrilhas();
+            if (tabName === 'matriculas') carregarMatriculas();
+            if (tabName === 'automation') carregarProfissoes();
+            if (tabName === 'navigator') carregarProfissoesAtuais();
+        }
+
+        async function carregarUsuarios() {
+            const container = document.getElementById('usuarios-list');
+            container.innerHTML = '<div class="loading">Carregando usuários...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/usuarios`);
+                const usuarios = await response.json();
+                
+                if (usuarios.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhum usuário cadastrado.</p>';
+                    return;
+                }
+
+                container.innerHTML = '<div class="grid"></div>';
+                const grid = container.querySelector('.grid');
+
+                usuarios.forEach(usuario => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <h3 style="font-size: 1.2em; margin-bottom: 10px;">${usuario.nome}</h3>
+                        <p style="font-size: 0.9em;"><strong>Email:</strong> ${usuario.email}</p>
+                        <p style="font-size: 0.9em;"><strong>Área:</strong> ${usuario.areaAtuacao || 'Não informado'}</p>
+                        <p style="font-size: 0.9em;"><strong>Nível:</strong> ${usuario.nivelCarreira || 'Não informado'}</p>
+                        <p style="font-size: 0.9em;"><strong>Cadastro:</strong> ${new Date(usuario.dataCadastro).toLocaleDateString('pt-BR')}</p>
+                        <div class="card-actions">
+                            <button class="btn btn-small btn-edit" onclick="editarUsuario(${usuario.id})" style="position: relative; z-index: 10;">✏️ Editar</button>
+                            <button class="btn btn-small btn-delete" onclick="excluirUsuario(${usuario.id}, ${JSON.stringify(usuario.nome)})" style="position: relative; z-index: 10;">🗑️ Excluir</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = `<div class="error">Erro ao carregar usuários: ${error.message}</div>`;
+            }
+        }
+
+        async function carregarTrilhas(nivel = null) {
+            const container = document.getElementById('trilhas-list');
+            container.innerHTML = '<div class="loading">Carregando trilhas...</div>';
+
+            try {
+                const url = nivel ? `${API_BASE}/trilhas/nivel/${nivel}` : `${API_BASE}/trilhas`;
+                const response = await fetch(url);
+                const trilhas = await response.json();
+                
+                if (trilhas.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhuma trilha encontrada.</p>';
+                    return;
+                }
+
+                container.innerHTML = '<div class="grid"></div>';
+                const grid = container.querySelector('.grid');
+
+                trilhas.forEach(trilha => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    const nivelClass = trilha.nivel.toLowerCase();
+                    card.innerHTML = `
+                        <h3>${trilha.nome}</h3>
+                        <p>${trilha.descricao || 'Sem descrição'}</p>
+                        <p><strong>Carga Horária:</strong> ${trilha.cargaHoraria}h</p>
+                        <p><strong>Foco:</strong> ${trilha.focoPrincipal || 'Não especificado'}</p>
+                        <span class="badge badge-${nivelClass}">${trilha.nivel}</span>
+                        ${trilha.competencias && trilha.competencias.length > 0 ? 
+                            `<div style="margin-top: 12px;">
+                                ${trilha.competencias.map(c => `<span class="competencia-tag">${c.nome}</span>`).join('')}
+                            </div>` : ''}
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = `<div class="error">Erro ao carregar trilhas: ${error.message}</div>`;
+            }
+        }
+
+        function filtrarTrilhas(nivel) {
+            carregarTrilhas(nivel);
+        }
+
+        async function carregarMatriculas() {
+            const container = document.getElementById('matriculas-list');
+            container.innerHTML = '<div class="loading">Carregando matrículas...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/matriculas`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const matriculas = await response.json();
+                
+                if (!Array.isArray(matriculas)) {
+                    throw new Error('Resposta inválida da API');
+                }
+                
+                if (matriculas.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhuma matrícula encontrada.</p>';
+                    return;
+                }
+
+                container.innerHTML = '<div class="grid"></div>';
+                const grid = container.querySelector('.grid');
+
+                matriculas.forEach(matricula => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    const statusClass = matricula.status ? matricula.status.toLowerCase() : 'ativa';
+                    const usuarioNome = matricula.usuario ? matricula.usuario.nome : 'N/A';
+                    const usuarioEmail = matricula.usuario ? matricula.usuario.email : 'N/A';
+                    const trilhaNome = matricula.trilha ? matricula.trilha.nome : 'N/A';
+                    const dataInscricao = matricula.dataInscricao ? new Date(matricula.dataInscricao).toLocaleDateString('pt-BR') : 'N/A';
+                    
+                    card.innerHTML = `
+                        <h3>Matrícula #${matricula.id}</h3>
+                        <p style="font-size: 0.9em;"><strong>Usuário:</strong> ${usuarioNome}</p>
+                        <p style="font-size: 0.9em;"><strong>Email:</strong> ${usuarioEmail}</p>
+                        <p style="font-size: 0.9em;"><strong>Trilha:</strong> ${trilhaNome}</p>
+                        <p style="font-size: 0.9em;"><strong>Data:</strong> ${dataInscricao}</p>
+                        <span class="badge badge-${statusClass}">${matricula.status || 'ATIVA'}</span>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar matrículas:', error);
+                container.innerHTML = `<div class="error">Erro ao carregar matrículas: ${error.message}</div>`;
+            }
+        }
+
+        async function criarUsuario(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const usuario = {
+                nome: formData.get('nome'),
+                email: formData.get('email'),
+                areaAtuacao: formData.get('areaAtuacao'),
+                nivelCarreira: formData.get('nivelCarreira')
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/usuarios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(usuario)
+                });
+
+                if (response.ok) {
+                    alert('✅ Usuário criado com sucesso!');
+                    event.target.reset();
+                    showTab('usuarios');
+                    setTimeout(() => carregarUsuarios(), 300);
+                } else {
+                    const error = await response.json();
+                    alert(`❌ Erro: ${error.message || 'Erro ao criar usuário'}`);
+                }
+            } catch (error) {
+                alert(`❌ Erro: ${error.message}`);
+            }
+        }
+
+        async function criarMatricula(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const matricula = {
+                usuarioId: parseInt(formData.get('usuarioId')),
+                trilhaId: parseInt(formData.get('trilhaId'))
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/matriculas`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(matricula)
+                });
+
+                if (response.ok) {
+                    alert('✅ Matrícula criada com sucesso!');
+                    event.target.reset();
+                    showTab('matriculas');
+                    setTimeout(() => carregarMatriculas(), 300);
+                } else {
+                    const error = await response.json();
+                    alert(`❌ Erro: ${error.message || 'Erro ao criar matrícula'}`);
+                }
+            } catch (error) {
+                alert(`❌ Erro: ${error.message}`);
+            }
+        }
+
+        let usuarioEditando = null;
+
+        async function editarUsuario(id) {
+            try {
+                const response = await fetch(`${API_BASE}/usuarios/${id}`);
+                const usuario = await response.json();
+                
+                usuarioEditando = usuario;
+                
+                document.getElementById('edit-nome').value = usuario.nome;
+                document.getElementById('edit-email').value = usuario.email;
+                document.getElementById('edit-areaAtuacao').value = usuario.areaAtuacao || '';
+                document.getElementById('edit-nivelCarreira').value = usuario.nivelCarreira || '';
+                
+                document.getElementById('modal-editar').classList.add('active');
+            } catch (error) {
+                alert(`❌ Erro ao carregar usuário: ${error.message}`);
+            }
+        }
+
+        async function salvarEdicao(event) {
+            event.preventDefault();
+            
+            if (!usuarioEditando) return;
+
+            const formData = new FormData(event.target);
+            const usuarioAtualizado = {
+                nome: formData.get('nome'),
+                email: formData.get('email'),
+                areaAtuacao: formData.get('areaAtuacao'),
+                nivelCarreira: formData.get('nivelCarreira')
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/usuarios/${usuarioEditando.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(usuarioAtualizado)
+                });
+
+                if (response.ok) {
+                    alert('✅ Usuário atualizado com sucesso!');
+                    fecharModal();
+                    carregarUsuarios();
+                } else {
+                    const error = await response.json();
+                    alert(`❌ Erro: ${error.message || 'Erro ao atualizar usuário'}`);
+                }
+            } catch (error) {
+                alert(`❌ Erro: ${error.message}`);
+            }
+        }
+
+        async function excluirUsuario(id, nome) {
+            if (!confirm(`⚠️ Tem certeza que deseja excluir o usuário "${nome}"?\n\nEsta ação não pode ser desfeita!`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/usuarios/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok || response.status === 204) {
+                    alert('✅ Usuário excluído com sucesso!');
+                    carregarUsuarios();
+                } else {
+                    const errorText = await response.text();
+                    let errorMessage = 'Erro ao excluir usuário';
+                    try {
+                        const error = JSON.parse(errorText);
+                        errorMessage = error.message || errorMessage;
+                    } catch (e) {
+                        errorMessage = errorText || `Erro HTTP ${response.status}`;
+                    }
+                    alert(`❌ Erro: ${errorMessage}`);
+                }
+            } catch (error) {
+                console.error('Erro ao excluir usuário:', error);
+                alert(`❌ Erro: ${error.message}`);
+            }
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-editar').classList.remove('active');
+            usuarioEditando = null;
+        }
+
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal-editar');
+            if (event.target === modal) {
+                fecharModal();
+            }
+        });
+
+        async function carregarProfissoes() {
+            try {
+                const response = await fetch(`${API_BASE}/automation-risk/profissoes`);
+                const profissoes = await response.json();
+                
+                const datalist = document.getElementById('profissoes-list');
+                datalist.innerHTML = '';
+                profissoes.forEach(profissao => {
+                    const option = document.createElement('option');
+                    option.value = profissao;
+                    datalist.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar profissões:', error);
+            }
+        }
+
+        async function analisarRisco() {
+            const profissaoInput = document.getElementById('profissao-input');
+            const profissao = profissaoInput.value.trim();
+            
+            if (!profissao) {
+                alert('⚠️ Por favor, informe sua profissão');
+                return;
+            }
+
+            const container = document.getElementById('resultado-analise');
+            container.innerHTML = '<div class="loading">Analisando risco de automação...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/automation-risk/analisar?profissao=${encodeURIComponent(profissao)}`);
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Erro ao analisar profissão');
+                }
+
+                const resultado = await response.json();
+                exibirResultado(resultado);
+            } catch (error) {
+                container.innerHTML = `<div class="error">Erro: ${error.message}</div>`;
+            }
+        }
+
+        function exibirResultado(resultado) {
+            const container = document.getElementById('resultado-analise');
+            const score = resultado.scoreMedio;
+            const nivelRisco = resultado.nivelRisco;
+            const corRisco = resultado.corRisco;
+            const tarefas = resultado.tarefas || [];
+            const trilhas = resultado.trilhasRecomendadas || [];
+            const recomendacao = resultado.recomendacao;
+
+            let scoreClass = 'badge-iniciante';
+            if (score >= 70) scoreClass = 'badge-avancado';
+            else if (score >= 40) scoreClass = 'badge-intermediario';
+
+            let html = `
+                <div class="card" style="margin-bottom: 30px; border: 2px solid ${corRisco};">
+                    <h3 style="color: ${corRisco}; text-align: center; font-size: 1.8em; margin-bottom: 20px;">
+                        ${resultado.profissao.nome}
+                    </h3>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <div style="font-size: 3.5em; font-weight: 700; color: ${corRisco}; margin-bottom: 10px; font-family: 'Space Grotesk', sans-serif;">
+                            ${score}%
+                        </div>
+                        <span class="badge ${scoreClass}" style="font-size: 1.1em; padding: 10px 20px;">
+                            ${nivelRisco}
+                        </span>
+                    </div>
+                    <p style="text-align: center; color: var(--text-secondary); font-size: 1.05em; line-height: 1.8; margin: 20px 0;">
+                        ${recomendacao}
+                    </p>
+                </div>
+
+                <h3 style="color: var(--primary); margin: 40px 0 20px 0; font-size: 1.6em; font-family: 'Space Grotesk', sans-serif;">📋 Análise de Tarefas</h3>
+                <div class="grid">
+            `;
+
+            const tarefasAlto = tarefas.filter(t => t.riscoAutomacao >= 70);
+            const tarefasModerado = tarefas.filter(t => t.riscoAutomacao >= 40 && t.riscoAutomacao < 70);
+            const tarefasBaixo = tarefas.filter(t => t.riscoAutomacao < 40);
+
+            if (tarefasAlto.length > 0) {
+                html += `<div style="grid-column: 1 / -1; margin-bottom: 20px;"><h4 style="color: var(--danger); margin-bottom: 15px; font-weight: 600;">🔴 ALTO RISCO (≥70%)</h4></div>`;
+                tarefasAlto.forEach(tarefa => {
+                    html += criarCardTarefa(tarefa, 'avancado');
+                });
+            }
+
+            if (tarefasModerado.length > 0) {
+                html += `<div style="grid-column: 1 / -1; margin: 30px 0 20px 0;"><h4 style="color: var(--warning); margin-bottom: 15px; font-weight: 600;">🟠 RISCO MODERADO (40-69%)</h4></div>`;
+                tarefasModerado.forEach(tarefa => {
+                    html += criarCardTarefa(tarefa, 'intermediario');
+                });
+            }
+
+            if (tarefasBaixo.length > 0) {
+                html += `<div style="grid-column: 1 / -1; margin: 30px 0 20px 0;"><h4 style="color: var(--success); margin-bottom: 15px; font-weight: 600;">🟢 BAIXO RISCO (<40%)</h4></div>`;
+                tarefasBaixo.forEach(tarefa => {
+                    html += criarCardTarefa(tarefa, 'iniciante');
+                });
+            }
+
+            html += `</div>`;
+
+            if (trilhas.length > 0) {
+                html += `
+                    <h3 style="color: var(--primary); margin: 50px 0 20px 0; font-size: 1.6em; font-family: 'Space Grotesk', sans-serif;">🎓 Trilhas Recomendadas</h3>
+                    <div class="grid">
+                `;
+                trilhas.forEach(trilha => {
+                    html += `
+                        <div class="card">
+                            <h3>${trilha.nome}</h3>
+                            <p>${trilha.descricao || 'Sem descrição'}</p>
+                            <p><strong>Carga Horária:</strong> ${trilha.cargaHoraria}h</p>
+                            <p><strong>Nível:</strong> ${trilha.nivel}</p>
+                            <span class="badge badge-${trilha.nivel.toLowerCase()}">${trilha.nivel}</span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function criarCardTarefa(tarefa, nivelClass) {
+            const risco = tarefa.riscoAutomacao;
+            const corRisco = risco >= 70 ? 'var(--danger)' : risco >= 40 ? 'var(--warning)' : 'var(--success)';
+            
+            return `
+                <div class="card">
+                    <h3 style="font-size: 1.1em;">${tarefa.nome}</h3>
+                    <p style="font-size: 0.9em; color: var(--text-secondary);">${tarefa.descricao || 'Sem descrição'}</p>
+                    <div style="margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="color: var(--text-secondary); font-weight: 500;">Risco de Automação:</span>
+                            <span style="color: ${corRisco}; font-weight: 700; font-size: 1.2em;">${risco}%</span>
+                        </div>
+                        <div style="background: var(--bg-card); border-radius: 8px; height: 6px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, ${corRisco}, ${corRisco}aa); height: 100%; width: ${risco}%; transition: width 0.5s;"></div>
+                        </div>
+                    </div>
+                    ${tarefa.trilhaSugerida ? `
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+                            <p style="font-size: 0.85em; color: var(--primary); margin-bottom: 5px; font-weight: 500;">💡 Trilha Sugerida:</p>
+                            <p style="font-size: 0.9em; color: var(--text-primary);">${tarefa.trilhaSugerida.nome}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        async function carregarProfissoesAtuais() {
+            try {
+                const response = await fetch(`${API_BASE}/career-navigator/profissoes-atuais`);
+                const profissoes = await response.json();
+                
+                const datalist = document.getElementById('profissoes-atuais-list');
+                datalist.innerHTML = '';
+                profissoes.forEach(profissao => {
+                    const option = document.createElement('option');
+                    option.value = profissao;
+                    datalist.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar profissões atuais:', error);
+            }
+        }
+
+        async function navegarCarreira() {
+            const profissaoInput = document.getElementById('profissao-atual-input');
+            const profissao = profissaoInput.value.trim();
+            
+            if (!profissao) {
+                alert('⚠️ Por favor, informe sua profissão atual');
+                return;
+            }
+
+            const container = document.getElementById('resultado-navegacao');
+            container.innerHTML = '<div class="loading">Navegando carreiras do futuro...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/career-navigator/navegar?profissaoAtual=${encodeURIComponent(profissao)}`);
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Erro ao navegar carreiras');
+                }
+
+                const resultado = await response.json();
+                exibirNavegacao(resultado);
+            } catch (error) {
+                container.innerHTML = `<div class="error">Erro: ${error.message}</div>`;
+            }
+        }
+
+        function exibirNavegacao(resultado) {
+            const container = document.getElementById('resultado-navegacao');
+            const profissoesFuturas = resultado.profissoesFuturas || [];
+            const habilidadesExigidas = resultado.habilidadesExigidas || {};
+            const habilidadesTransicao = resultado.habilidadesTransicao || {};
+            const trilhasRecomendadas = resultado.trilhasRecomendadas || {};
+
+            if (profissoesFuturas.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhuma carreira futura encontrada para esta profissão.</p>';
+                return;
+            }
+
+            let html = `
+                <div class="card" style="margin-bottom: 30px; border: 2px solid var(--primary);">
+                    <h3 style="color: var(--primary); text-align: center; font-size: 1.6em; margin-bottom: 15px;">
+                        🎯 Sua Profissão Atual
+                    </h3>
+                    <p style="text-align: center; font-size: 1.3em; color: var(--text-primary); font-weight: 600;">
+                        ${resultado.profissaoAtual}
+                    </p>
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 15px;">
+                        Encontramos <strong>${profissoesFuturas.length}</strong> carreira(s) futura(s) possível(is) para você!
+                    </p>
+                </div>
+
+                <h3 style="color: var(--primary); margin: 40px 0 20px 0; font-size: 1.6em; font-family: 'Space Grotesk', sans-serif;">
+                    🚀 Carreiras Emergentes 2030+
+                </h3>
+                <div class="grid">
+            `;
+
+            profissoesFuturas.forEach(profissao => {
+                const nomeProfissao = profissao.nome;
+                const habilidadesExig = habilidadesExigidas[nomeProfissao] || [];
+                const habilidadesTrans = habilidadesTransicao[nomeProfissao] || [];
+                const trilhas = trilhasRecomendadas[nomeProfissao] || [];
+
+                html += `
+                    <div class="card" style="border: 2px solid var(--primary);">
+                        <h3 style="color: var(--primary); font-size: 1.4em; margin-bottom: 12px;">
+                            ${profissao.nome}
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.95em;">
+                            ${profissao.descricao || 'Sem descrição'}
+                        </p>
+                        ${profissao.categoria ? `
+                            <p style="margin-bottom: 15px;">
+                                <span style="background: rgba(0, 212, 255, 0.1); padding: 4px 12px; border-radius: 12px; font-size: 0.85em; color: var(--primary);">
+                                    ${profissao.categoria}
+                                </span>
+                            </p>
+                        ` : ''}
+
+                        ${habilidadesExig.length > 0 ? `
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                                <p style="color: var(--primary); font-weight: 600; margin-bottom: 10px; font-size: 0.95em;">
+                                    ✅ Habilidades Exigidas:
+                                </p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${habilidadesExig.map(h => `
+                                        <span style="background: rgba(16, 185, 129, 0.15); padding: 6px 12px; border-radius: 16px; font-size: 0.85em; color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3);">
+                                            ${h}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${habilidadesTrans.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <p style="color: var(--warning); font-weight: 600; margin-bottom: 10px; font-size: 0.95em;">
+                                    🔄 Habilidades de Transição:
+                                </p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                    ${habilidadesTrans.map(h => `
+                                        <span style="background: rgba(245, 158, 11, 0.15); padding: 6px 12px; border-radius: 16px; font-size: 0.85em; color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3);">
+                                            ${h}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${trilhas.length > 0 ? `
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                                <p style="color: var(--primary); font-weight: 600; margin-bottom: 12px; font-size: 0.95em;">
+                                    🎓 Trilha Recomendada:
+                                </p>
+                                ${trilhas.map(trilha => `
+                                    <div style="background: var(--bg-card); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border);">
+                                        <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 5px;">
+                                            ${trilha.nome}
+                                        </p>
+                                        <p style="color: var(--text-secondary); font-size: 0.9em; margin-bottom: 8px;">
+                                            ${trilha.descricao || 'Sem descrição'}
+                                        </p>
+                                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                            <span style="font-size: 0.85em; color: var(--text-secondary);">
+                                                ⏱️ ${trilha.cargaHoraria}h
+                                            </span>
+                                            <span class="badge badge-${trilha.nivel.toLowerCase()}">
+                                                ${trilha.nivel}
+                                            </span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        window.onload = function() {
+            carregarUsuarios();
+            carregarProfissoes();
+            carregarProfissoesAtuais();
+        };
+    </script>
+
+    <!-- Modal Editar Usuário -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Editar Usuário</h3>
+                <button class="close-modal" onclick="fecharModal()">×</button>
+            </div>
+            <form id="form-editar-usuario" onsubmit="salvarEdicao(event)">
+                <div class="form-group">
+                    <label>Nome *</label>
+                    <input type="text" id="edit-nome" name="nome" required placeholder="Digite o nome completo">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="edit-email" name="email" required placeholder="exemplo@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Área de Atuação</label>
+                    <input type="text" id="edit-areaAtuacao" name="areaAtuacao" placeholder="Ex: Tecnologia da Informação">
+                </div>
+                <div class="form-group">
+                    <label>Nível de Carreira</label>
+                    <input type="text" id="edit-nivelCarreira" name="nivelCarreira" placeholder="Ex: Júnior, Pleno, Sênior">
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 25px;">
+                    <button type="submit" class="btn" style="flex: 1;">💾 Salvar</button>
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()" style="flex: 1;">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
