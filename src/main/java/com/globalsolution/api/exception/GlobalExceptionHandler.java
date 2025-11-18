@@ -1,6 +1,7 @@
 package com.globalsolution.api.exception;
 
 import com.globalsolution.domain.exception.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,81 +17,97 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsuarioNaoEncontradoException.class)
-    public ResponseEntity<ErrorResponse> handleUsuarioNaoEncontrado(UsuarioNaoEncontradoException ex) {
+    public ResponseEntity<ErrorResponse> handleUsuarioNaoEncontrado(UsuarioNaoEncontradoException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Usuário não encontrado",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(TrilhaNaoEncontradaException.class)
-    public ResponseEntity<ErrorResponse> handleTrilhaNaoEncontrada(TrilhaNaoEncontradaException ex) {
+    public ResponseEntity<ErrorResponse> handleTrilhaNaoEncontrada(TrilhaNaoEncontradaException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Trilha não encontrada",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(CompetenciaNaoEncontradaException.class)
-    public ResponseEntity<ErrorResponse> handleCompetenciaNaoEncontrada(CompetenciaNaoEncontradaException ex) {
+    public ResponseEntity<ErrorResponse> handleCompetenciaNaoEncontrada(CompetenciaNaoEncontradaException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Competência não encontrada",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(MatriculaNaoEncontradaException.class)
-    public ResponseEntity<ErrorResponse> handleMatriculaNaoEncontrada(MatriculaNaoEncontradaException ex) {
+    public ResponseEntity<ErrorResponse> handleMatriculaNaoEncontrada(MatriculaNaoEncontradaException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Matrícula não encontrada",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(EmailJaCadastradoException.class)
-    public ResponseEntity<ErrorResponse> handleEmailJaCadastrado(EmailJaCadastradoException ex) {
+    public ResponseEntity<ErrorResponse> handleEmailJaCadastrado(EmailJaCadastradoException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
+                "Email já cadastrado",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(MatriculaJaExisteException.class)
-    public ResponseEntity<ErrorResponse> handleMatriculaJaExiste(MatriculaJaExisteException ex) {
+    public ResponseEntity<ErrorResponse> handleMatriculaJaExiste(MatriculaJaExisteException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
+                "Matrícula já existe",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(ProfissaoNaoEncontradaException.class)
-    public ResponseEntity<ErrorResponse> handleProfissaoNaoEncontrada(ProfissaoNaoEncontradaException ex) {
+    public ResponseEntity<ErrorResponse> handleProfissaoNaoEncontrada(ProfissaoNaoEncontradaException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
+                "Profissão não encontrada",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
+                "Requisição inválida",
                 ex.getMessage(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
@@ -114,24 +131,37 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Erro interno do servidor: " + ex.getMessage(),
-                LocalDateTime.now()
+                "Erro interno do servidor",
+                ex.getMessage(),
+                LocalDateTime.now(),
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     public static class ErrorResponse {
         private int status;
+        private String error;
         private String message;
         private LocalDateTime timestamp;
+        private String path;
 
         public ErrorResponse(int status, String message, LocalDateTime timestamp) {
             this.status = status;
+            this.error = message;
             this.message = message;
             this.timestamp = timestamp;
+        }
+
+        public ErrorResponse(int status, String error, String message, LocalDateTime timestamp, String path) {
+            this.status = status;
+            this.error = error;
+            this.message = message;
+            this.timestamp = timestamp;
+            this.path = path;
         }
 
         public int getStatus() {
@@ -140,6 +170,14 @@ public class GlobalExceptionHandler {
 
         public void setStatus(int status) {
             this.status = status;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
         }
 
         public String getMessage() {
@@ -156,6 +194,14 @@ public class GlobalExceptionHandler {
 
         public void setTimestamp(LocalDateTime timestamp) {
             this.timestamp = timestamp;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
         }
     }
 }

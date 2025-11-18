@@ -15,7 +15,7 @@ public interface CaminhoCarreiraRepository extends JpaRepository<CaminhoCarreira
            "LEFT JOIN FETCH c.profissaoFutura " +
            "LEFT JOIN FETCH c.habilidades " +
            "LEFT JOIN FETCH c.trilha " +
-           "WHERE LOWER(c.profissaoAtual) = LOWER(:profissaoAtual)")
+           "WHERE c.profissaoAtual = :profissaoAtual")
     List<CaminhoCarreira> findByProfissaoAtualWithRelations(String profissaoAtual);
     
     @Query("SELECT DISTINCT c.profissaoAtual FROM CaminhoCarreira c ORDER BY c.profissaoAtual")

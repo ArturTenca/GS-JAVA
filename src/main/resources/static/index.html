@@ -708,7 +708,10 @@
 
             try {
                 const response = await fetch(`${API_BASE}/usuarios`);
-                const usuarios = await response.json();
+                const data = await response.json();
+                
+                // Extrair array de usuários (pode ser Page ou array direto)
+                const usuarios = Array.isArray(data) ? data : (data.content || []);
                 
                 if (usuarios.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhum usuário cadastrado.</p>';
@@ -746,7 +749,10 @@
             try {
                 const url = nivel ? `${API_BASE}/trilhas/nivel/${nivel}` : `${API_BASE}/trilhas`;
                 const response = await fetch(url);
-                const trilhas = await response.json();
+                const data = await response.json();
+                
+                // Extrair array de trilhas (pode ser Page ou array direto)
+                const trilhas = Array.isArray(data) ? data : (data.content || []);
                 
                 if (trilhas.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhuma trilha encontrada.</p>';
@@ -793,11 +799,10 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const matriculas = await response.json();
+                const data = await response.json();
                 
-                if (!Array.isArray(matriculas)) {
-                    throw new Error('Resposta inválida da API');
-                }
+                // Extrair array de matrículas (pode ser Page ou array direto)
+                const matriculas = Array.isArray(data) ? data : (data.content || []);
                 
                 if (matriculas.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhuma matrícula encontrada.</p>';
@@ -811,9 +816,10 @@
                     const card = document.createElement('div');
                     card.className = 'card';
                     const statusClass = matricula.status ? matricula.status.toLowerCase() : 'ativa';
-                    const usuarioNome = matricula.usuario ? matricula.usuario.nome : 'N/A';
-                    const usuarioEmail = matricula.usuario ? matricula.usuario.email : 'N/A';
-                    const trilhaNome = matricula.trilha ? matricula.trilha.nome : 'N/A';
+                    // Usar os campos do DTO diretamente
+                    const usuarioNome = matricula.usuarioNome || 'N/A';
+                    const usuarioEmail = matricula.usuarioEmail || 'N/A';
+                    const trilhaNome = matricula.trilhaNome || 'N/A';
                     const dataInscricao = matricula.dataInscricao ? new Date(matricula.dataInscricao).toLocaleDateString('pt-BR') : 'N/A';
                     
                     card.innerHTML = `
@@ -958,23 +964,30 @@
                     }
                 });
 
-                if (response.ok || response.status === 204) {
+                // Status 204 (No Content) ou 200 (OK) indicam sucesso
+                if (response.status === 204 || response.ok) {
                     alert('✅ Usuário excluído com sucesso!');
-                    carregarUsuarios();
+                    // Recarregar a lista de usuários após exclusão
+                    setTimeout(() => {
+                        carregarUsuarios();
+                    }, 300);
                 } else {
-                    const errorText = await response.text();
-                    let errorMessage = 'Erro ao excluir usuário';
+                    // Tentar ler a mensagem de erro
+                    let errorMessage = `Erro HTTP ${response.status}`;
                     try {
-                        const error = JSON.parse(errorText);
-                        errorMessage = error.message || errorMessage;
+                        const errorText = await response.text();
+                        if (errorText) {
+                            const error = JSON.parse(errorText);
+                            errorMessage = error.message || error.error || errorMessage;
+                        }
                     } catch (e) {
-                        errorMessage = errorText || `Erro HTTP ${response.status}`;
+                        // Se não conseguir parsear, usar a mensagem padrão
                     }
-                    alert(`❌ Erro: ${errorMessage}`);
+                    alert(`❌ Erro ao excluir usuário: ${errorMessage}`);
                 }
             } catch (error) {
                 console.error('Erro ao excluir usuário:', error);
-                alert(`❌ Erro: ${error.message}`);
+                alert(`❌ Erro ao excluir usuário: ${error.message || 'Erro de conexão'}`);
             }
         }
 
@@ -1119,26 +1132,37 @@
         }
 
         function criarCardTarefa(tarefa, nivelClass) {
-            const risco = tarefa.riscoAutomacao;
-            const corRisco = risco >= 70 ? 'var(--danger)' : risco >= 40 ? 'var(--warning)' : 'var(--success)';
+            // Garantir que o risco seja um número válido
+            const risco = parseInt(tarefa.riscoAutomacao) || 0;
+            const riscoLimitado = Math.max(0, Math.min(100, risco)); // Garantir entre 0 e 100
+            
+            // Definir cores baseadas no risco
+            let corRisco;
+            if (riscoLimitado >= 70) {
+                corRisco = '#ef4444'; // var(--danger)
+            } else if (riscoLimitado >= 40) {
+                corRisco = '#f59e0b'; // var(--warning)
+            } else {
+                corRisco = '#10b981'; // var(--success)
+            }
             
             return `
                 <div class="card">
-                    <h3 style="font-size: 1.1em;">${tarefa.nome}</h3>
+                    <h3 style="font-size: 1.1em;">${tarefa.nome || 'Tarefa sem nome'}</h3>
                     <p style="font-size: 0.9em; color: var(--text-secondary);">${tarefa.descricao || 'Sem descrição'}</p>
                     <div style="margin-top: 15px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                             <span style="color: var(--text-secondary); font-weight: 500;">Risco de Automação:</span>
-                            <span style="color: ${corRisco}; font-weight: 700; font-size: 1.2em;">${risco}%</span>
+                            <span style="color: ${corRisco}; font-weight: 700; font-size: 1.2em;">${riscoLimitado}%</span>
                         </div>
-                        <div style="background: var(--bg-card); border-radius: 8px; height: 6px; overflow: hidden;">
-                            <div style="background: linear-gradient(90deg, ${corRisco}, ${corRisco}aa); height: 100%; width: ${risco}%; transition: width 0.5s;"></div>
+                        <div style="background: var(--bg-card); border-radius: 8px; height: 8px; overflow: hidden; position: relative;">
+                            <div style="background: ${corRisco}; height: 100%; width: ${riscoLimitado}%; transition: width 0.5s ease; border-radius: 8px;"></div>
                         </div>
                     </div>
                     ${tarefa.trilhaSugerida ? `
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
                             <p style="font-size: 0.85em; color: var(--primary); margin-bottom: 5px; font-weight: 500;">💡 Trilha Sugerida:</p>
-                            <p style="font-size: 0.9em; color: var(--text-primary);">${tarefa.trilhaSugerida.nome}</p>
+                            <p style="font-size: 0.9em; color: var(--text-primary);">${tarefa.trilhaSugerida.nome || 'Trilha sugerida'}</p>
                         </div>
                     ` : ''}
                 </div>

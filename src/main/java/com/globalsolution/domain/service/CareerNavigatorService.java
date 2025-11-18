@@ -23,7 +23,27 @@ public class CareerNavigatorService {
 
     @Transactional(readOnly = true)
     public Map<String, Object> navegarCarreira(String profissaoAtual) {
-        List<CaminhoCarreira> caminhos = caminhoRepository.findByProfissaoAtualWithRelations(profissaoAtual);
+        // Normalizar a profissão para comparação (trim e case-insensitive)
+        String profissaoNormalizada = profissaoAtual.trim();
+        List<CaminhoCarreira> caminhos = caminhoRepository.findByProfissaoAtualIgnoreCase(profissaoNormalizada);
+        
+        // Se não encontrar com ignore case, tentar buscar todos e filtrar
+        if (caminhos.isEmpty()) {
+            List<CaminhoCarreira> todosCaminhos = caminhoRepository.findAll();
+            caminhos = todosCaminhos.stream()
+                .filter(c -> c.getProfissaoAtual() != null && 
+                            c.getProfissaoAtual().trim().equalsIgnoreCase(profissaoNormalizada))
+                .collect(Collectors.toList());
+            
+            // Carregar relações lazy para os caminhos encontrados
+            caminhos.forEach(c -> {
+                c.getProfissaoFutura().getId(); // Force load
+                c.getHabilidades().size(); // Force load
+                if (c.getTrilha() != null) {
+                    c.getTrilha().getId(); // Force load
+                }
+            });
+        }
 
         if (caminhos.isEmpty()) {
             throw new RuntimeException("Nenhum caminho encontrado para a profissão: " + profissaoAtual);

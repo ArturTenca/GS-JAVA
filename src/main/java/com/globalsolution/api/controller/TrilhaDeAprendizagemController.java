@@ -1,9 +1,13 @@
 package com.globalsolution.api.controller;
 
-import com.globalsolution.domain.model.TrilhaDeAprendizagem;
+import com.globalsolution.api.dto.TrilhaCreateDTO;
+import com.globalsolution.api.dto.TrilhaDTO;
 import com.globalsolution.domain.service.TrilhaDeAprendizagemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,32 +23,33 @@ public class TrilhaDeAprendizagemController {
     private TrilhaDeAprendizagemService trilhaService;
 
     @GetMapping
-    public ResponseEntity<List<TrilhaDeAprendizagem>> listarTodas() {
-        List<TrilhaDeAprendizagem> trilhas = trilhaService.listarTodas();
+    public ResponseEntity<Page<TrilhaDTO>> listarTodas(
+            @PageableDefault(size = 10) Pageable pageable) {
+        Page<TrilhaDTO> trilhas = trilhaService.listarTodas(pageable);
         return ResponseEntity.ok(trilhas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TrilhaDeAprendizagem> buscarPorId(@PathVariable Long id) {
-        TrilhaDeAprendizagem trilha = trilhaService.buscarPorId(id);
+    public ResponseEntity<TrilhaDTO> buscarPorId(@PathVariable Long id) {
+        TrilhaDTO trilha = trilhaService.buscarPorIdDTO(id);
         return ResponseEntity.ok(trilha);
     }
 
     @GetMapping("/nivel/{nivel}")
-    public ResponseEntity<List<TrilhaDeAprendizagem>> buscarPorNivel(@PathVariable String nivel) {
-        List<TrilhaDeAprendizagem> trilhas = trilhaService.buscarPorNivel(nivel);
+    public ResponseEntity<List<TrilhaDTO>> buscarPorNivel(@PathVariable String nivel) {
+        List<TrilhaDTO> trilhas = trilhaService.buscarPorNivel(nivel);
         return ResponseEntity.ok(trilhas);
     }
 
     @PostMapping
-    public ResponseEntity<TrilhaDeAprendizagem> criar(@Valid @RequestBody TrilhaDeAprendizagem trilha) {
-        TrilhaDeAprendizagem trilhaCriada = trilhaService.criar(trilha);
+    public ResponseEntity<TrilhaDTO> criar(@Valid @RequestBody TrilhaCreateDTO dto) {
+        TrilhaDTO trilhaCriada = trilhaService.criar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(trilhaCriada);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TrilhaDeAprendizagem> atualizar(@PathVariable Long id, @Valid @RequestBody TrilhaDeAprendizagem trilha) {
-        TrilhaDeAprendizagem trilhaAtualizada = trilhaService.atualizar(id, trilha);
+    public ResponseEntity<TrilhaDTO> atualizar(@PathVariable Long id, @Valid @RequestBody TrilhaCreateDTO dto) {
+        TrilhaDTO trilhaAtualizada = trilhaService.atualizar(id, dto);
         return ResponseEntity.ok(trilhaAtualizada);
     }
 

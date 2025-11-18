@@ -49,64 +49,70 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         // Criar Competências do Futuro
-        Competencia ia = criarCompetencia("Inteligência Artificial", "Tecnológica",
-                "Desenvolvimento e aplicação de sistemas de IA e Machine Learning");
-        Competencia dados = criarCompetencia("Análise de Dados", "Tecnológica",
-                "Coleta, processamento e análise de dados para tomada de decisão");
-        Competencia empatia = criarCompetencia("Empatia e Inteligência Emocional", "Humana",
-                "Capacidade de compreender e se conectar com outras pessoas");
-        Competencia colaboracao = criarCompetencia("Colaboração e Trabalho em Equipe", "Humana",
-                "Habilidades para trabalhar efetivamente em grupos diversos");
+        Competencia iaGenerativa = criarCompetencia("IA Generativa", "Tecnológica",
+                "Domínio de ferramentas de IA generativa como ChatGPT, Midjourney, e desenvolvimento de soluções com LLMs");
+        Competencia dataLiteracy = criarCompetencia("Data Literacy", "Tecnológica",
+                "Capacidade de ler, analisar e interpretar dados para tomada de decisão estratégica");
+        Competencia empatiaDigital = criarCompetencia("Empatia Digital", "Humana",
+                "Capacidade de compreender e se conectar com outras pessoas em ambientes digitais e remotos");
+        Competencia segurancaCibernetica = criarCompetencia("Segurança Cibernética", "Tecnológica",
+                "Proteção de sistemas, redes e dados contra ameaças digitais");
+        Competencia colaboracaoRemota = criarCompetencia("Colaboração Remota", "Humana",
+                "Habilidades para trabalhar efetivamente em equipes distribuídas e ambientes virtuais");
+        Competencia automacaoProcessos = criarCompetencia("Automação de Processos", "Tecnológica",
+                "Uso de RPA, workflows automatizados e otimização de processos empresariais");
+        Competencia culturaInovacao = criarCompetencia("Cultura de Inovação", "Humana",
+                "Mentalidade inovadora, adaptabilidade e capacidade de transformar ideias em soluções");
         Competencia cloud = criarCompetencia("Cloud Computing", "Tecnológica",
-                "Conhecimento em serviços e infraestrutura em nuvem");
+                "Conhecimento em serviços e infraestrutura em nuvem (AWS, Azure, GCP)");
         Competencia comunicacao = criarCompetencia("Comunicação Efetiva", "Humana",
-                "Habilidades de comunicação verbal e escrita");
+                "Habilidades de comunicação verbal, escrita e apresentação em contextos diversos");
 
         // Criar Trilhas de Aprendizagem
         TrilhaDeAprendizagem trilhaIA = criarTrilha(
-                "Trilha de Inteligência Artificial para Iniciantes",
-                "Aprenda os fundamentos de IA, Machine Learning e suas aplicações práticas no mercado de trabalho.",
+                "Trilha de IA Generativa para Iniciantes",
+                "Aprenda os fundamentos de IA generativa, uso de LLMs, ChatGPT, e suas aplicações práticas no mercado de trabalho.",
                 "INICIANTE",
                 80,
                 "Inteligência Artificial"
         );
-        trilhaIA.setCompetencias(Arrays.asList(ia, dados, cloud));
+        trilhaIA.setCompetencias(Arrays.asList(iaGenerativa, dataLiteracy, cloud));
 
         TrilhaDeAprendizagem trilhaDados = criarTrilha(
-                "Análise de Dados e Business Intelligence",
-                "Domine ferramentas de análise de dados, visualização e storytelling com dados.",
+                "Data Literacy e Business Intelligence",
+                "Domine ferramentas de análise de dados, visualização, storytelling com dados e tomada de decisão baseada em evidências.",
                 "INTERMEDIARIO",
                 120,
                 "Data Science"
         );
-        trilhaDados.setCompetencias(Arrays.asList(dados, cloud));
+        trilhaDados.setCompetencias(Arrays.asList(dataLiteracy, cloud, automacaoProcessos));
 
         TrilhaDeAprendizagem trilhaSoftSkills = criarTrilha(
                 "Competências Humanas para o Futuro do Trabalho",
-                "Desenvolva habilidades interpessoais essenciais para o mercado de trabalho 2030+.",
+                "Desenvolva habilidades interpessoais essenciais para o mercado de trabalho 2030+: empatia digital, colaboração remota e cultura de inovação.",
                 "INICIANTE",
                 60,
                 "Soft Skills"
         );
-        trilhaSoftSkills.setCompetencias(Arrays.asList(empatia, colaboracao, comunicacao));
+        trilhaSoftSkills.setCompetencias(Arrays.asList(empatiaDigital, colaboracaoRemota, comunicacao, culturaInovacao));
 
         TrilhaDeAprendizagem trilhaAvancadaIA = criarTrilha(
                 "IA Avançada e Deep Learning",
-                "Aprofunde seus conhecimentos em redes neurais, NLP e visão computacional.",
+                "Aprofunde seus conhecimentos em redes neurais, NLP, visão computacional e desenvolvimento de modelos de IA generativa.",
                 "AVANCADO",
                 200,
                 "Inteligência Artificial"
         );
-        trilhaAvancadaIA.setCompetencias(Arrays.asList(ia, dados, cloud));
+        trilhaAvancadaIA.setCompetencias(Arrays.asList(iaGenerativa, dataLiteracy, cloud, segurancaCibernetica));
 
         TrilhaDeAprendizagem trilhaHibrida = criarTrilha(
                 "Tecnologia e Humanidade: O Equilíbrio Perfeito",
-                "Combine competências técnicas e humanas para se destacar no mercado de trabalho.",
+                "Combine competências técnicas e humanas para se destacar no mercado de trabalho: IA, automação, colaboração remota e inovação.",
                 "INTERMEDIARIO",
                 150,
                 "Desenvolvimento Integral"
         );
-        trilhaHibrida.setCompetencias(Arrays.asList(ia, empatia, colaboracao, comunicacao));
+        trilhaHibrida.setCompetencias(Arrays.asList(iaGenerativa, empatiaDigital, colaboracaoRemota, comunicacao, culturaInovacao));
 
         // Criar Usuários de Exemplo
         Usuario usuario1 = criarUsuario(
