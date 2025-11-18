@@ -7,9 +7,9 @@ Documentação resumida, clara e focada no essencial: **como rodar o projeto**.
 
 # 👤 Integrantes 
 
-Artur Tenca - RM555171
-Igor Brunelli - RM555035
-Victor Capp - RM555753
+-Artur Tenca - RM555171
+-Igor Brunelli - RM555035
+-Victor Capp - RM555753
 ---
 
 
