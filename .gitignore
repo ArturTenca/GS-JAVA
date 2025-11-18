@@ -48,3 +48,17 @@ application-local.properties
 .DS_Store
 Thumbs.db
 
+# Scripts locais
+*.bat
+*.sh
+
+# Arquivos temporários de documentação
+*_SETUP.md
+*_ERRO.md
+*_JAVA*.md
+DESCOBRIR_*.md
+EXECUTAR.md
+
+# Arquivos de configuração local
+application-local.properties
+application-*.local.properties
